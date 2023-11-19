@@ -19,19 +19,11 @@ public class CustomFileChooser extends JFileChooser {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = getSelectedFile();
 
-            // Comprueba si el archivo ya existe
-            if (selectedFile.exists()) {
-                int overwriteConfirmation = JOptionPane.showConfirmDialog(parent,
-                        "El archivo ya existe. ¿Deseas sobrescribirlo?",
-                        "Confirmar sobrescritura", JOptionPane.YES_NO_OPTION);
-
-                if (overwriteConfirmation != JOptionPane.YES_OPTION) {
-                    return CANCEL_OPTION; // El usuario optó por no sobrescribir el archivo
-                }
+            if (fileExists(selectedFile, parent)) {
+                return CANCEL_OPTION; // El usuario optó por no sobrescribir el archivo
             }
 
-            // Crea el archivo y escribe en él
-            writeToFile(selectedFile, "Contenido del archivo.");
+            createAndWriteToFile(selectedFile, "Contenido del archivo.");
 
             JOptionPane.showMessageDialog(parent, "Archivo creado exitosamente.");
         }
@@ -39,12 +31,26 @@ public class CustomFileChooser extends JFileChooser {
         return result;
     }
 
-    private void writeToFile(File file, String content) {
+    private boolean fileExists(File file, java.awt.Component parent) {
+        if (file.exists()) {
+            int overwriteConfirmation = JOptionPane.showConfirmDialog(parent,
+                    "El archivo ya existe. ¿Deseas sobrescribirlo?",
+                    "Confirmar sobrescritura", JOptionPane.YES_NO_OPTION);
+
+            return overwriteConfirmation != JOptionPane.YES_OPTION;
+        }
+        return false;
+    }
+
+    private void createAndWriteToFile(File file, String content) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(content);
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al escribir en el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            handleFileWriteError();
         }
+    }
+
+    private void handleFileWriteError() {
+        JOptionPane.showMessageDialog(null, "Error al escribir en el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
