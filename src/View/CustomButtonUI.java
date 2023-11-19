@@ -1,4 +1,5 @@
 package View;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
@@ -13,12 +14,7 @@ public class CustomButtonUI extends BasicButtonUI {
     @Override
     public void installUI(JComponent c) {
         super.installUI(c);
-        AbstractButton button = (AbstractButton) c;
-        button.setOpaque(false);
-        button.setBorderPainted(false);
-        button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        button.setMinimumSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-        button.setMaximumSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        configureButton((AbstractButton) c);
     }
 
     @Override
@@ -27,11 +23,33 @@ public class CustomButtonUI extends BasicButtonUI {
         ButtonModel model = button.getModel();
 
         Graphics2D g2d = (Graphics2D) g;
+        setupGraphicsContext(g2d);
+
+        RoundRectangle2D shape = createRoundRectangle(c.getWidth(), c.getHeight());
+
+        paintButtonBackground(button, model, g2d, shape);
+        super.paint(g2d, c);
+
+        paintHoverLineIfRollover(model, g2d, c.getHeight());
+    }
+
+    private void configureButton(AbstractButton button) {
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        button.setMinimumSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        button.setMaximumSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+    }
+
+    private void setupGraphicsContext(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    }
 
-        // Definir la forma redondeada del botón
-        RoundRectangle2D shape = new RoundRectangle2D.Float(0, 0, c.getWidth(), c.getHeight(), BORDER_RADIUS, BORDER_RADIUS);
+    private RoundRectangle2D createRoundRectangle(int width, int height) {
+        return new RoundRectangle2D.Float(0, 0, width, height, BORDER_RADIUS, BORDER_RADIUS);
+    }
 
+    private void paintButtonBackground(AbstractButton button, ButtonModel model, Graphics2D g2d, RoundRectangle2D shape) {
         if (model.isPressed()) {
             g2d.setColor(button.getBackground().brighter());
         } else if (model.isRollover()) {
@@ -41,16 +59,14 @@ public class CustomButtonUI extends BasicButtonUI {
         }
 
         g2d.fill(shape);
-        super.paint(g2d, c);
+    }
 
-        // Pintar línea de hover en la parte inferior
+    private void paintHoverLineIfRollover(ButtonModel model, Graphics2D g2d, int buttonHeight) {
         if (model.isRollover()) {
             g2d.setColor(Color.WHITE); // Puedes ajustar el color de la línea según tus preferencias
 
-            // Ajustar las coordenadas para que estén dentro del área del botón redondeado
-            int yOffset = (int) (c.getHeight() - HOVER_LINE_HEIGHT);
-            g2d.fillRect(0, yOffset, c.getWidth(), HOVER_LINE_HEIGHT);
+            int yOffset = buttonHeight - HOVER_LINE_HEIGHT;
+            g2d.fillRect(0, yOffset, g2d.getClipBounds().width, HOVER_LINE_HEIGHT);
         }
     }
 }
-
