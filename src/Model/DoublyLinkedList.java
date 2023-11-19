@@ -92,43 +92,38 @@ public class DoublyLinkedList <T>{
         return size;
     }
 
-    // Método para intercambiar los elementos 't' de dos nodos dados sus índices
     private void swapElementsByIndex(int index1, int index2) {
         Node<T> node1 = getNodeByIndex(index1);
         Node<T> node2 = getNodeByIndex(index2);
 
         if (node1 != null && node2 != null) {
-            // Intercambiar los elementos 't' de los nodos
             T tempT = node1.item;
             node1.item = node2.item;
             node2.item = tempT;
         }
     }
 
-    // Método de ordenamiento utilizando el algoritmo de la burbuja
-    public void sort() {
-        if (head == null || head.next == null) {
-            // La lista está vacía o tiene un solo elemento, ya está ordenada
-            return;
+    // Método de ordenamiento utilizando el algoritmo QuickSort
+    public void quicksort(int izquierda, int derecha) {
+        if (izquierda < derecha) {
+            int indiceParticion = partition(izquierda, derecha);
+            quicksort(izquierda, indiceParticion - 1);
+            quicksort(indiceParticion + 1, derecha);
+        }
+    }
+
+    private int partition(int izquierda, int derecha) {
+        Node<T> pivote = getNodeByIndex(derecha);
+        int i = izquierda - 1;
+
+        for (int j = izquierda; j < derecha; j++) {
+            if (getNodeByIndex(j).index < pivote.index) {
+                i++;
+                swapElementsByIndex(i, j);
+            }
         }
 
-        boolean swapped;
-        Node<T> current;
-        Node<T> last = null;
-
-        do {
-            swapped = false;
-            current = head;
-
-            while (current.next != last) {
-                if (current.index > current.next.index) {
-                    swapElementsByIndex(current.index, current.next.index);
-                    swapped = true;
-                }
-                current = current.next;
-            }
-            last = current;
-
-        } while (swapped);
+        swapElementsByIndex(i + 1, derecha);
+        return i + 1;
     }
 }
