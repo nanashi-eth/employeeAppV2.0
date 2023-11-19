@@ -43,8 +43,8 @@ public class View extends JFrame {
         CustomButton nuevoButton = new CustomButton( "Nuevo o Insertar", "\uF0C6");
         sideBarPanel.add(nuevoButton);
         
-        nuevoButton.addActionListener(v->
-            new DetailsDialog(this).setVisible(true));
+//        nuevoButton.addActionListener(v->
+//            new DetailsDialog(this).setVisible(true));
 
         // Botón "Creado Masivo"
         CustomButton creadoMasivoButton = new CustomButton( "Creado Masivo", "\uf0ac");
@@ -56,9 +56,10 @@ public class View extends JFrame {
 
         // ScrollPane para la lista
         JScrollPane listScrollPane = new JScrollPane(empleadosList);
+        mainPanel.add(new DetailsPanel(), BorderLayout.CENTER);
 
-        // Agregar listScrollPane al centro del BorderLayout
-        mainPanel.add(listScrollPane, BorderLayout.CENTER);
+//        // Agregar listScrollPane al centro del BorderLayout
+//        mainPanel.add(listScrollPane, BorderLayout.CENTER);
 
         // Agregar sideBarPanel a la parte izquierda del BorderLayout
         mainPanel.add(sideBarPanel, BorderLayout.WEST);

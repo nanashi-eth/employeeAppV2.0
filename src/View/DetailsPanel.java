@@ -2,8 +2,6 @@ package View;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JTextFieldDateEditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +9,7 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class DetailsDialog extends JDialog {
+public class DetailsPanel extends JPanel {
 
     public static final Color FG = new Color(19, 218, 43);
     private JComboBox<String> typeComboBox;
@@ -26,9 +24,7 @@ public class DetailsDialog extends JDialog {
     Font iconFont = FontManager.getCustomIconFont();
     private CustomDateChooser dateChooser;
 
-    public DetailsDialog(JFrame parent) {
-        super(parent, "Employee Details", true);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    public DetailsPanel() {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(400, 400));
 
@@ -129,7 +125,6 @@ public class DetailsDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Agregar lógica para manejar la acción de Aceptar
-                dispose();
             }
         });
 
@@ -137,7 +132,6 @@ public class DetailsDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Agregar lógica para manejar la acción de Cancelar
-                dispose();
             }
         });
 
@@ -164,8 +158,6 @@ public class DetailsDialog extends JDialog {
         calendarButton.setContentAreaFilled(false);
         deleteButton.setForeground(FG);
         calendarButton.setForeground(FG);
-        pack();
-        setLocationRelativeTo(parent);
         calendarButton.addActionListener(v->{
             if (v.getSource() == calendarButton) {
                 // Abre el DatePicker al hacer clic en el botón

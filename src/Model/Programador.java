@@ -1,6 +1,6 @@
 package Model;
 
-public class Programador extends Empleado {
+public class Programador extends Empleado implements CalculoFechas{
     private double sueldoExtraMensual;
     // Otro atributo personalizado, distinto en nombre y tipo al de Model.Analista
 

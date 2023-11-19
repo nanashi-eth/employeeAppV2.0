@@ -1,6 +1,6 @@
 package Model;
 
-public class Analista extends Empleado {
+public class Analista extends Empleado implements CalculoFechas{
     private double plusAnual;
     // Otro atributo personalizado
 

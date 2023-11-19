@@ -33,7 +33,6 @@ public class CustomDateChooser extends JDateChooser {
                 jcalendar.getYearChooser().setForeground(Color.WHITE);
             }
         });
-        
         getDateEditor().addPropertyChangeListener(v->{
             if (!getDateEditor().getUiComponent().hasFocus()) {
                 getDateEditor().getUiComponent().setForeground(Color.WHITE);

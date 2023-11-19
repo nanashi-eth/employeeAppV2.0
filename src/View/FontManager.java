@@ -10,13 +10,13 @@ public class FontManager {
     private static Font customIconFont;
 
     static {
-        try (InputStream is = FontManager.class.getResourceAsStream("../assets/Awesome.otf")) {
+        try (InputStream is = FontManager.class.getResourceAsStream("../assets/fonts/Awesome.otf")) {
             customIconFont = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
 
-        try (InputStream is = FontManager.class.getResourceAsStream("../assets/Main.ttf")) {
+        try (InputStream is = FontManager.class.getResourceAsStream("../assets/fonts/Main.ttf")) {
             customFont = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
