@@ -2,11 +2,12 @@ package View;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class DetailsPanel extends JPanel {
+public class DetailsPanel extends CustomPanel {
 
     private static final Color FG = new Color(19, 218, 43);
     private JComboBox<String> typeComboBox;
@@ -14,8 +15,10 @@ public class DetailsPanel extends JPanel {
     private Font font = FontManager.getCustomFont().deriveFont(Font.BOLD, 13), iconFont = FontManager.getCustomIconFont().deriveFont(Font.PLAIN, 15);;
     private CustomDateChooser dateChooser;
     JButton deleteButton, calendarButton;
+    private static final int INTERNAL_PADDING = 3;
 
     public DetailsPanel() {
+        super();
         initializeUI();
         createTopPanel();
         createCenterPanel();
@@ -29,13 +32,17 @@ public class DetailsPanel extends JPanel {
     }
 
     private void createTopPanel() {
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        CustomPanel topPanel = new CustomPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setBorder(new EmptyBorder(0, 0, INTERNAL_PADDING, 0));
         typeComboBox = new JComboBox<>(new String[]{"Analista", "Programador"});
+        typeComboBox.setBorder(new LineBorder(Color.WHITE, 1));
         addComboBoxFocusListener(typeComboBox);
 
         deleteButton = createIconButton("\uf1f8");
         calendarButton = createIconButton("\uf073");
         dateChooser = new CustomDateChooser();
+        dateChooser.setOpaque(false);
         dateChooser.setMinimumSize(new Dimension(200, 30));
 
         topPanel.add(new JLabel("Type:"));
@@ -48,7 +55,8 @@ public class DetailsPanel extends JPanel {
 
     private void createCenterPanel() {
         JPanel centerPanel = new JPanel(new GridBagLayout());
-        centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        centerPanel.setBorder(new EmptyBorder(10, INTERNAL_PADDING, 0, INTERNAL_PADDING));
+        centerPanel.setBackground(getBackground().brighter());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
@@ -77,7 +85,8 @@ public class DetailsPanel extends JPanel {
     }
 
     private void createBottomPanel() {
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        CustomPanel bottomPanel = new CustomPanel();
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         JButton acceptButton = new JButton("Aceptar");
         JButton cancelButton = new JButton("Cancelar");
 
@@ -88,7 +97,6 @@ public class DetailsPanel extends JPanel {
     }
 
     private void customizeAppearance() {
-        setBackground(getBackground().darker());
         setFontRecursively(this, font);
         setButtonBackground(this, FG, Color.WHITE);
     }
@@ -158,7 +166,7 @@ public class DetailsPanel extends JPanel {
 
             @Override
             public void focusLost(FocusEvent e) {
-                comboBox.setBorder(UIManager.getBorder("ComboBox.border")); // Restore the default border
+                comboBox.setBorder(new LineBorder(Color.WHITE, 1)); // Restore the default border
             }
         });
     }

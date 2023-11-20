@@ -21,7 +21,7 @@ public class DoublyLinkedList <T>{
             // Inicializar otros campos si es necesario
         }
     }
-    public DoublyLinkedList() {
+    public DoublyLinkedList(DoublyLinkedList<Empleado> employeeDoublyLinkedList) {
         indexNodeMap = new HashMap<>();
         size = 0;
     }

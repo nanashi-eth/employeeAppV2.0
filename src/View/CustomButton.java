@@ -41,10 +41,10 @@ public class CustomButton extends JButton {
         setBorderPainted(false);
 
         // Obtener el color de fondo predeterminado de UIManager
-        Color backgroundColor = UIManager.getColor("Frame.background");
+        Color backgroundColor = getBackground();
 
         // Configurar el color de fondo del botón
-        setBackground(backgroundColor);
+        setBackground(backgroundColor.brighter().darker());
 
         // Configurar el diseño con un JLabel para el icono en la posición WEST (izquierda)
         setLayout(new BorderLayout());

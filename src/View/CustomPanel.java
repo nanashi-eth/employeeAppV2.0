@@ -4,42 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CustomPanel extends JPanel {
+    private static final int BORDER_RADIUS = 20;
+    private static final int PADDING = 2;
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Obtener dimensiones del panel
         int width = getWidth();
         int height = getHeight();
 
-        // Crear un rectángulo con bordes redondeados
-        int borderRadius = 20; // Puedes ajustar este valor según tu preferencia
-        g.setColor(Color.GRAY);
-        g.fillRoundRect(10, 10, width - 10, height - 10, borderRadius, borderRadius);
+        
+        g2d.setColor(this.getBackground().brighter());
+        g2d.fillRoundRect(PADDING, PADDING, width - 2 * PADDING, height - 2 * PADDING, BORDER_RADIUS, BORDER_RADIUS);
     }
 
     // Constructor
     public CustomPanel() {
         // Puedes configurar otros aspectos del panel aquí si es necesario
         setOpaque(false); // Asegura que el fondo personalizado se renderice correctamente
-    }
-
-    public static void main(String[] args) {
-        // Ejemplo de uso
-        JFrame frame = new JFrame("Ejemplo JPanel Personalizado");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Crear una instancia de tu JPanel personalizado
-        CustomPanel panelPersonalizado = new CustomPanel();
-        panelPersonalizado.setPreferredSize(new Dimension(300, 200)); // Ajusta las dimensiones según tu necesidad
-
-        // Agregar el panel personalizado al marco
-        frame.getContentPane().add(panelPersonalizado);
-
-        // Configurar el marco
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 }

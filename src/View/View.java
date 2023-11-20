@@ -1,14 +1,17 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class View extends JFrame {
+    private static final int MARGIN_SIZE = 3;
     private DefaultListModel<String> empleadosListModel;
     private JList<String> empleadosList;
-    private JPanel sideBarPanel;
+    private CustomPanel sideBarPanel;
     private JPanel mainPanel;
-    private JPanel employeePane;
+    private EmployeePanel employeePane;
     private DetailsPanel editPanel;
     private JPanel rightPanel;
     private JSplitPane splitPane;
@@ -25,8 +28,9 @@ public class View extends JFrame {
         mainPanel = new JPanel(new BorderLayout());
 
         // Barra lateral con BoxLayout en eje Y
-        sideBarPanel = new JPanel();
+        sideBarPanel = new CustomPanel();
         sideBarPanel.setLayout(new BoxLayout(sideBarPanel, BoxLayout.Y_AXIS));
+        applyMarginToPanel(sideBarPanel);
 
         // Botones en la barra lateral
         setupSideBarButtons();
@@ -36,6 +40,7 @@ public class View extends JFrame {
 
         // Configurar el panel derecho (rightPanel)
         setupRightPanel();
+        
 
         // Agregar sideBarPanel y rightPanel al BorderLayout principal
         mainPanel.add(sideBarPanel, BorderLayout.WEST);
@@ -70,6 +75,7 @@ public class View extends JFrame {
         // Configurar el panel derecho (rightPanel)
         rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
+        rightPanel.setBorder(new EmptyBorder(0, 0, 0, MARGIN_SIZE));
 
         // Lista de empleados
         empleadosListModel = new DefaultListModel<>();
@@ -77,11 +83,16 @@ public class View extends JFrame {
 
         // ScrollPane para la lista
         listScrollPane = new JScrollPane(empleadosList);
+        CustomPanel panel = new CustomPanel();
+        panel.add(listScrollPane);
+        applyMarginToPanel(panel);
         editPanel = new DetailsPanel();
-        employeePane = new JPanel();
+        applyMarginToPanel(editPanel);
+        employeePane = new EmployeePanel();
+        applyMarginToPanel(employeePane);
 
         // Crear JSplitPane y configurarlo como vertical
-        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editPanel, listScrollPane);
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editPanel, panel);
         splitPane.setResizeWeight(0.5);
 
         // Agregar el JSplitPane al rightPanel
@@ -104,6 +115,12 @@ public class View extends JFrame {
         validate();
         repaint();
     }
+
+    private void applyMarginToPanel(JPanel panel) {
+        // Método para aplicar el margen a un panel dado
+        panel.setBorder(new EmptyBorder(MARGIN_SIZE, MARGIN_SIZE, MARGIN_SIZE, MARGIN_SIZE));
+    }
+
 
     private void setTextColor(Color color, Component component) {
         if (component instanceof Container && !(component instanceof DetailsPanel)) {

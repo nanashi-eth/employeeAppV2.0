@@ -10,25 +10,25 @@ public interface CalculoFechas {
     int ANIO = Calendar.YEAR;
 
     // Métodos para controlar si se cumplen meses o años
-    default boolean cumpleMes(Date fechaApertura) {
+    default boolean cumpleMes(Date fechaAlta) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fechaApertura);
-        int mesApertura = calendar.get(MES);
+        calendar.setTime(fechaAlta);
+        int mesAlta = calendar.get(MES);
 
         Calendar fechaActual = Calendar.getInstance();
         int mesActual = fechaActual.get(MES);
 
-        return mesApertura == mesActual;
+        return mesAlta == mesActual;
     }
 
-    default boolean cumpleAnio(Date fechaApertura) {
+    default boolean cumpleAnio(Date fechaAlta) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fechaApertura);
-        int anioApertura = calendar.get(ANIO);
+        calendar.setTime(fechaAlta);
+        int anioAlta = calendar.get(ANIO);
 
         Calendar fechaActual = Calendar.getInstance();
         int anioActual = fechaActual.get(ANIO);
 
-        return anioApertura == anioActual;
+        return anioAlta == anioActual;
     }
 }
