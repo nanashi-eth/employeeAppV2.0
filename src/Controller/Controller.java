@@ -46,7 +46,7 @@ public class Controller implements CalculoFechas {
 
     // Method to sort an ArrayList by employee number
     private void sortArrayListByEmpleadoNumber(List<Empleado> arrayList) {
-//        Collections.sort(arrayList, (e1, e2) -> Integer.compare(e1.getEmpleadoNumber(), e2.getEmpleadoNumber()));
+        Collections.sort(arrayList, (e1, e2) -> Integer.compare(employeeDoublyLinkedList.getIndexByItem(e1), employeeDoublyLinkedList.getIndexByItem(e2)));
     }
     public boolean fulfillsMonthAnalyst(Analista analyst, int numberOfMonths) {
         return cumpleMes(analyst.getFechaAlta());

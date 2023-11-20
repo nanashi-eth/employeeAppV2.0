@@ -2,15 +2,14 @@ package View;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class View extends JFrame {
     private static final int MARGIN_SIZE = 3;
     private DefaultListModel<String> empleadosListModel;
     private JList<String> empleadosList;
-    private CustomPanel sideBarPanel;
-    private JPanel mainPanel;
+    private final CustomPanel sideBarPanel;
+    private final JPanel mainPanel;
     private EmployeePanel employeePane;
     private DetailsPanel editPanel;
     private JPanel rightPanel;
@@ -130,7 +129,7 @@ public class View extends JFrame {
         }
 
         if (component instanceof JComponent) {
-            ((JComponent) component).setForeground(color);
+            component.setForeground(color);
         }
     }
 }

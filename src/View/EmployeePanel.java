@@ -5,13 +5,13 @@ import java.awt.*;
 
 public class EmployeePanel extends CustomPanel {
     // Definir los campos y cualquier otro componente que necesites
-    private JLabel nameField = new JLabel("nameField");
-    private JLabel dateField = new JLabel("dateField");
-    private JLabel salaryField = new JLabel("salaryField");
-    private JLabel maxSalaryField = new JLabel("maxSalaryField");
-    private JLabel departmentField = new JLabel("departmentField");
-    private JLabel specialField1 = new JLabel("specialField1");
-    private JLabel specialField2 = new JLabel("specialField2");
+    private final JLabel nameField = new JLabel("nameField");
+    private final JLabel dateField = new JLabel("dateField");
+    private final JLabel salaryField = new JLabel("salaryField");
+    private final JLabel maxSalaryField = new JLabel("maxSalaryField");
+    private final JLabel departmentField = new JLabel("departmentField");
+    private final JLabel specialField1 = new JLabel("specialField1");
+    private final JLabel specialField2 = new JLabel("specialField2");
 
     // Constructor de la clase
     public EmployeePanel() {

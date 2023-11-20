@@ -6,6 +6,7 @@ public class DoublyLinkedList <T>{
     private Node<T> head;
     private Node<T> tail;
     private final HashMap<Integer, Node<T>> indexNodeMap;
+    private final HashMap<T, Integer> itemIndexMap;
     private int size; 
 
     static class Node<T> {
@@ -23,6 +24,7 @@ public class DoublyLinkedList <T>{
     }
     public DoublyLinkedList(DoublyLinkedList<Empleado> employeeDoublyLinkedList) {
         indexNodeMap = new HashMap<>();
+        itemIndexMap = new HashMap<>();
         size = 0;
     }
 
@@ -39,6 +41,7 @@ public class DoublyLinkedList <T>{
         tail = newNode;
 
         indexNodeMap.put(index, newNode);
+        itemIndexMap.put(item, index);
         size++; // Incrementar el tamaño
     }
 
@@ -60,6 +63,7 @@ public class DoublyLinkedList <T>{
             }
 
             indexNodeMap.remove(index);
+            itemIndexMap.remove(nodeToRemove.item);
             size--; // Decrementar el tamaño
         }
     }
@@ -68,6 +72,10 @@ public class DoublyLinkedList <T>{
     private Node<T> getNodeByIndex(int index) {
         return indexNodeMap.get(index);
     }
+    public int getIndexByItem(T item) {
+        return itemIndexMap.getOrDefault(item, -1);
+    }
+
 
     // Método para verificar si un nodo con un índice dado tiene un nodo siguiente
     public boolean hasNext(int index) {
@@ -100,6 +108,8 @@ public class DoublyLinkedList <T>{
             T tempT = node1.item;
             node1.item = node2.item;
             node2.item = tempT;
+            itemIndexMap.put(node1.item, node2.index);
+            itemIndexMap.put(node2.item, node1.index);
         }
     }
 
@@ -122,8 +132,19 @@ public class DoublyLinkedList <T>{
                 swapElementsByIndex(i, j);
             }
         }
-
         swapElementsByIndex(i + 1, derecha);
         return i + 1;
+    }
+    
+    
+
+    public void updateItemIndexMapAfterSort() {
+        // Actualizar el mapa inverso después de ordenar
+        HashMap<T, Integer> newItemIndexMap = new HashMap<>();
+        for (Node<T> node : indexNodeMap.values()) {
+            newItemIndexMap.put(node.item, node.index);
+        }
+        itemIndexMap.clear();
+        itemIndexMap.putAll(newItemIndexMap);
     }
 }
