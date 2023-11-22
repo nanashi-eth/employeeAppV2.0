@@ -10,5 +10,12 @@ public class Analista extends Empleado implements CalculoFechas{
     }
     // Otro atributo personalizado
 
-    // Constructor, getters y setters específicos para Model.Analista
+
+    public double getPlusAnual() {
+        return plusAnual;
+    }
+
+    public void setPlusAnual(double plusAnual) {
+        this.plusAnual = plusAnual;
+    }
 }

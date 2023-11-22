@@ -22,10 +22,18 @@ public class DoublyLinkedList <T>{
             // Inicializar otros campos si es necesario
         }
     }
-    public DoublyLinkedList(DoublyLinkedList<Empleado> employeeDoublyLinkedList) {
+    public DoublyLinkedList() {
         indexNodeMap = new HashMap<>();
         itemIndexMap = new HashMap<>();
         size = 0;
+    }
+    public DoublyLinkedList(DoublyLinkedList<T> otherList) {
+        this();
+        Node<T> otherCurrent = otherList.head;
+        while (otherCurrent != null) {
+            this.add(otherCurrent.index, otherCurrent.item);
+            otherCurrent = otherCurrent.next;
+        }
     }
 
     // Método para agregar un nodo al final de la lista
