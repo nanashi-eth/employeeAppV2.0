@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class Analista extends Empleado implements CalculoFechas{
     private double plusAnual;
+    private String tipoAnalisis; // Nuevo atributo para Analista
 
-    public Analista(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta) {
+    public Analista(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta, String tipoAnalisis) {
         super(nombre, sueldo, sueldoMaximo, fechaAlta);
+        this.tipoAnalisis = tipoAnalisis;
     }
-    // Otro atributo personalizado
-
 
     public double getPlusAnual() {
         return plusAnual;
@@ -17,5 +17,13 @@ public class Analista extends Empleado implements CalculoFechas{
 
     public void setPlusAnual(double plusAnual) {
         this.plusAnual = plusAnual;
+    }
+
+    public String getTipoAnalisis() {
+        return tipoAnalisis;
+    }
+
+    public void setTipoAnalisis(String tipoAnalisis) {
+        this.tipoAnalisis = tipoAnalisis;
     }
 }

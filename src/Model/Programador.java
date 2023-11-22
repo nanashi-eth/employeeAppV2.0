@@ -4,10 +4,11 @@ import java.util.Date;
 
 public class Programador extends Empleado implements CalculoFechas{
     private double sueldoExtraMensual;
-    
+    private String lenguajePrincipal; 
 
-    public Programador(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta) {
+    public Programador(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta, String lenguajePrincipal) {
         super(nombre, sueldo, sueldoMaximo, fechaAlta);
+        this.lenguajePrincipal = lenguajePrincipal;
     }
 
     public double getSueldoExtraMensual() {
@@ -16,5 +17,13 @@ public class Programador extends Empleado implements CalculoFechas{
 
     public void setSueldoExtraMensual(double sueldoExtraMensual) {
         this.sueldoExtraMensual = sueldoExtraMensual;
+    }
+
+    public String getLenguajePrincipal() {
+        return lenguajePrincipal;
+    }
+
+    public void setLenguajePrincipal(String lenguajePrincipal) {
+        this.lenguajePrincipal = lenguajePrincipal;
     }
 }

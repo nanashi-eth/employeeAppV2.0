@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.*;
+import View.CustomFileChooser;
 
 import javax.swing.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -83,6 +85,42 @@ public class Controller implements CalculoFechas {
     public boolean fulfillsYearProgrammer(Programador programmer, int numberOfYears) {
         return cumpleMes(programmer.getFechaAlta());
     }
-    
+
+
+    // Método para cargar datos desde un archivo
+    public void cargarDatosDesdeArchivo() {
+        CustomFileChooser fileChooser = new CustomFileChooser();
+        int seleccion = fileChooser.showOpenDialog(null);
+
+        if (seleccion == CustomFileChooser.APPROVE_OPTION) {
+            File archivo = fileChooser.getSelectedFile();
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
+                // Lee la lista desde el archivo y agrégala a la lista existente
+                // Lee la lista desde el archivo y agrégala a la lista enlazada existente
+                DoublyLinkedList<Empleado> listaCargada = (DoublyLinkedList<Empleado>) ois.readObject();
+                // Limpia la lista existente antes de agregar la lista cargada
+                employeeDoublyLinkedList.clear();
+                employeeDoublyLinkedList = new DoublyLinkedList<>(listaCargada);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Método para guardar datos en un archivo
+    public void guardarDatosEnArchivo() {
+        CustomFileChooser fileChooser = new CustomFileChooser();
+        int seleccion = fileChooser.showSaveDialog(null);
+
+        if (seleccion == CustomFileChooser.APPROVE_OPTION) {
+            File archivo = fileChooser.getSelectedFile();
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
+                // Escribe la lista en el archivo
+                oos.writeObject(employeeDoublyLinkedList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
 }

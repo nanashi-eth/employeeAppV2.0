@@ -155,4 +155,13 @@ public class DoublyLinkedList <T>{
         itemIndexMap.clear();
         itemIndexMap.putAll(newItemIndexMap);
     }
+
+    // Método para limpiar la lista enlazada
+    public void clear() {
+        head = null;
+        tail = null;
+        indexNodeMap.clear();
+        itemIndexMap.clear();
+        size = 0;
+    }
 }
