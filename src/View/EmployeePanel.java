@@ -5,6 +5,9 @@ import java.awt.*;
 
 public class EmployeePanel extends CustomPanel {
     // Definir los campos y cualquier otro componente que necesites
+    private Font font = FontManager.getCustomFont();
+    private Font iconFont = FontManager.getCustomIconFont();
+    private static final Color FG = new Color(19, 218, 43);
     private final JLabel nameField = new JLabel("nameField");
     private final JLabel dateField = new JLabel("dateField");
     private final JLabel salaryField = new JLabel("salaryField");
@@ -12,6 +15,10 @@ public class EmployeePanel extends CustomPanel {
     private final JLabel departmentField = new JLabel("departmentField");
     private final JLabel specialField1 = new JLabel("specialField1");
     private final JLabel specialField2 = new JLabel("specialField2");
+
+    // Agregamos botones de editar y borrar
+    private final JButton editButton = createIconButton("")
+    private final JButton deleteButton = new JButton("Borrar");
 
     // Constructor de la clase
     public EmployeePanel() {
@@ -23,48 +30,54 @@ public class EmployeePanel extends CustomPanel {
         // Row 1
         gbc.gridx = 0;
         gbc.gridy = 0;
+        add(editButton, gbc);
+
+        gbc.gridx = 1;
+        add(deleteButton, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         add(new JLabel("Name:"), gbc);
         gbc.gridx = 1;
         add(nameField, gbc);
 
         // Row 2
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         add(new JLabel("Date:"), gbc);
         gbc.gridx = 1;
         add(dateField, gbc);
 
         // Row 3
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         add(new JLabel("Salary:"), gbc);
         gbc.gridx = 1;
         add(salaryField, gbc);
 
         // Row 4
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         add(new JLabel("Max Salary:"), gbc);
         gbc.gridx = 1;
         add(maxSalaryField, gbc);
 
         // Row 5
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         add(new JLabel("Department:"), gbc);
         gbc.gridx = 1;
         add(departmentField, gbc);
 
         // Row 6
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         add(new JLabel("Special Field 1:"), gbc);
         gbc.gridx = 1;
         add(specialField1, gbc);
 
         // Row 7
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         add(new JLabel("Special Field 2:"), gbc);
         gbc.gridx = 1;
         add(specialField2, gbc);
@@ -83,14 +96,53 @@ public class EmployeePanel extends CustomPanel {
         nameField.setText(value);
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Custom Panel Example");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private void setFontRecursively(Container container, Font font) {
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            if (component instanceof Container) {
+                setFontRecursively((Container) component, font);
+            }
+            if (component instanceof JComponent && !component.equals(deleteButton) && !component.equals(editButton)) {
+                component.setFont(font);
+            }
+        }
+    }
 
-        EmployeePanel customPanel = new EmployeePanel();
-        frame.add(customPanel);
+    private JButton createIconButton(String iconUnicode) {
+        JButton button = new JButton();
+        button.setText(iconUnicode);
+        button.setFont(iconFont);
+        button.setContentAreaFilled(false);
+        applyHoverEffect(button);
+        button.setForeground(FG);
+        return button;
+    }
 
-        frame.setVisible(true);
+    private static void applyHoverEffect(AbstractButton button) {
+        button.setBorderPainted(false);
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setFont(button.getFont().deriveFont(Font.PLAIN, 17f));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setFont(button.getFont().deriveFont(Font.PLAIN, 15f));
+            }
+        });
+    }
+
+    private void setButtonBackground(Container container, Color backgroundColor, Color textColor) {
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            if (component instanceof AbstractButton && !component.equals(deleteButton) && !component.equals(editButton)) {
+                component.setBackground(backgroundColor);
+                component.setForeground(textColor);
+                ((JButton) component).setBorderPainted(false);
+            }
+            if (component instanceof Container) {
+                setButtonBackground((Container) component, backgroundColor, textColor);
+            }
+        }
     }
 }

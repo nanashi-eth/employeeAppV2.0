@@ -2,13 +2,9 @@ package Controller;
 
 import Model.*;
 import View.CustomFileChooser;
-
 import javax.swing.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Controller implements CalculoFechas {
     private DoublyLinkedList<Empleado> employeeDoublyLinkedList;
@@ -22,7 +18,7 @@ public class Controller implements CalculoFechas {
     // Method that performs the described actions
     public static void sortEmployees() {
         // Step 7.1: Create employees
-        List<Empleado> employees = createEmployees(1000); // You can adjust the number of employees
+        List<Empleado> employees = createEmployees(10000); // You can adjust the number of employees
 
         // Step 7.2: Insert employees into the linked list and a collection
         DoublyLinkedList<Empleado> linkedList = new DoublyLinkedList<>();
@@ -39,7 +35,7 @@ public class Controller implements CalculoFechas {
         long sortingTimeLinkedList = endTimeLinkedList - startTimeLinkedList;
 
         long startTimeCollection = System.currentTimeMillis();
-        Collections.sort(collectionList, (e1, e2) -> Integer.compare(linkedList.getIndexByItem(e1), (linkedList.getIndexByItem(e1))));
+        Collections.sort(collectionList, Comparator.comparingInt(Empleado::getNumber));
         long endTimeCollection = System.currentTimeMillis();
         long sortingTimeCollection = endTimeCollection - startTimeCollection;
 
@@ -55,8 +51,22 @@ public class Controller implements CalculoFechas {
             double salary = Math.random() * 1000; // Random salary between 0 and 1000
             double maxSalary = salary + Math.random() * 500; // Random max salary between salary and salary + 500
             Date hireDate = new Date(); // Current date
-            Empleado employee = new Empleado(name, salary, maxSalary, hireDate);
-            employees.add(employee);
+
+            if (Math.random() < 0.5) {
+                // Create Programador
+                double sueldoExtra = Math.random() * 200; // Random sueldoExtra between 0 and 200
+                String lenguajePrincipal = "Java"; // You can modify this as needed
+
+                Programador programador = new Programador(name, salary, maxSalary, hireDate, lenguajePrincipal, ((int) (Math.random() * 500)));
+                employees.add(programador);
+            } else {
+                // Create Analista
+                double plusAnual = Math.random() * 100; // Random plusAnual between 0 and 100
+                String tipoAnalisis = "Seguridad"; // You can modify this as needed
+
+                Analista analista = new Analista(name, salary, maxSalary, hireDate, tipoAnalisis, ((int) (Math.random() * 500)));
+                employees.add(analista);
+            }
         }
         return employees;
     }
@@ -123,4 +133,16 @@ public class Controller implements CalculoFechas {
         }
     }
     
+    public void saveEmployee(Empleado employee, int number) {
+        employeeDoublyLinkedList.add(number, employee);
+    }
+
+
+    public DoublyLinkedList<Empleado> getEmployeeDoublyLinkedList() {
+        return employeeDoublyLinkedList;
+    }
+
+    public List<Empleado> getEmployeeArrayList() {
+        return employeeArrayList;
+    }
 }

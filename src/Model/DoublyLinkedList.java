@@ -1,8 +1,9 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class DoublyLinkedList <T>{
+public class DoublyLinkedList <T> implements Serializable {
     private Node<T> head;
     private Node<T> tail;
     private final HashMap<Integer, Node<T>> indexNodeMap;

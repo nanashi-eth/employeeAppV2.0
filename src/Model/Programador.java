@@ -6,8 +6,8 @@ public class Programador extends Empleado implements CalculoFechas{
     private double sueldoExtraMensual;
     private String lenguajePrincipal; 
 
-    public Programador(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta, String lenguajePrincipal) {
-        super(nombre, sueldo, sueldoMaximo, fechaAlta);
+    public Programador(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta, String lenguajePrincipal, int number) {
+        super(nombre, sueldo, sueldoMaximo, fechaAlta, number);
         this.lenguajePrincipal = lenguajePrincipal;
     }
 

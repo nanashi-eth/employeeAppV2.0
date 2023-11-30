@@ -8,6 +8,7 @@ public class CustomButton extends JButton {
     private static final int ICON_SIZE = 15;
     private static final int TEXT_SIZE = 13;
     private static final String SPACER = "        ";
+    CustomButtonUI ui;
 
     public CustomButton(String text, String icon, ActionListener actionListener) {
         // Configurar el texto del botón
@@ -45,8 +46,20 @@ public class CustomButton extends JButton {
         // Configurar el diseño con un JLabel para el icono en la posición WEST (izquierda)
         setLayout(new BorderLayout());
         add(iconLabel, BorderLayout.WEST);
-
+        ui = new CustomButtonUI();
         // Aplicar ButtonUI personalizado
-        setUI(new CustomButtonUI());
+        setUI(ui);
+    }
+    
+    public void paintLine(CustomButton b) {
+        System.out.println(this.equals(b));
+        if (this.equals(b)) {
+            ui.setShouldPaintHoverLineAndRepaint(true);
+            repaint();
+        }
+        else {
+            ui.setShouldPaintHoverLineAndRepaint(false);
+            repaint();
+        }
     }
 }

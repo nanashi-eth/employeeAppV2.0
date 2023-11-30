@@ -10,6 +10,7 @@ public class CustomButtonUI extends BasicButtonUI {
     private static final int BUTTON_HEIGHT = 30;
     private static final int HOVER_LINE_HEIGHT = 2;
     private static final int BORDER_RADIUS = 20; // Ajusta según sea necesario
+    private boolean pressed = false;
 
     @Override
     public void installUI(JComponent c) {
@@ -29,7 +30,6 @@ public class CustomButtonUI extends BasicButtonUI {
 
         paintButtonBackground(button, model, g2d, shape);
         super.paint(g2d, c);
-
         paintHoverLineIfRollover(model, g2d, c.getHeight());
     }
 
@@ -62,11 +62,16 @@ public class CustomButtonUI extends BasicButtonUI {
     }
 
     private void paintHoverLineIfRollover(ButtonModel model, Graphics2D g2d, int buttonHeight) {
-        if (model.isRollover()) {
+        if (pressed) {
             g2d.setColor(Color.WHITE); // Puedes ajustar el color de la línea según tus preferencias
 
             int yOffset = buttonHeight - HOVER_LINE_HEIGHT;
             g2d.fillRect(0, yOffset, g2d.getClipBounds().width, HOVER_LINE_HEIGHT);
         }
     }
+
+    public void setShouldPaintHoverLineAndRepaint(boolean shouldPaintHoverLine) {
+        this.pressed = shouldPaintHoverLine; 
+    }
+    
 }

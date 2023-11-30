@@ -6,8 +6,8 @@ public class Analista extends Empleado implements CalculoFechas{
     private double plusAnual;
     private String tipoAnalisis; // Nuevo atributo para Analista
 
-    public Analista(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta, String tipoAnalisis) {
-        super(nombre, sueldo, sueldoMaximo, fechaAlta);
+    public Analista(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta, String tipoAnalisis, int number) {
+        super(nombre, sueldo, sueldoMaximo, fechaAlta, number);
         this.tipoAnalisis = tipoAnalisis;
     }
 

@@ -5,12 +5,14 @@ import java.util.Date;
 
 public class Empleado implements Serializable {
     private transient String nombre;
+    private transient int number;
     private double sueldo;
     private double sueldoMaximo;
     private Date fechaAlta;
 
-    public Empleado(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta) {
+    public Empleado(String nombre, double sueldo, double sueldoMaximo, Date fechaAlta, int number) {
         this.nombre = nombre;
+        this.number = number;
         this.sueldo = sueldo;
         this.sueldoMaximo = sueldoMaximo;
         this.fechaAlta = fechaAlta;
@@ -47,5 +49,12 @@ public class Empleado implements Serializable {
     public void setFechaAlta(Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
-// Constructor, getters y setters para los atributos
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 }

@@ -15,6 +15,11 @@ public class View extends JFrame {
     private JPanel rightPanel;
     private JSplitPane splitPane;
     private JScrollPane listScrollPane;
+    private CustomButton cargarButton;
+    private CustomButton guardarButton;
+    private CustomButton nuevoButton;
+    private CustomButton creadoMasivoButton;
+    private CustomButton employeesButton;
 
     public View() {
         // Configuración de la interfaz gráfica
@@ -34,12 +39,9 @@ public class View extends JFrame {
         // Botones en la barra lateral
         setupSideBarButtons();
 
-        // Configurar el ActionListener para el botón "Employees"
-        setupEmployeesButton();
-
         // Configurar el panel derecho (rightPanel)
         setupRightPanel();
-        
+
 
         // Agregar sideBarPanel y rightPanel al BorderLayout principal
         mainPanel.add(sideBarPanel, BorderLayout.WEST);
@@ -56,18 +58,42 @@ public class View extends JFrame {
 
     private void setupSideBarButtons() {
         // Botones en la barra lateral
-        sideBarPanel.add(new CustomButton("Cargar", "\uF093", e -> {}));
-        sideBarPanel.add(new CustomButton("Guardar", "\uF0C7", e -> {}));
-        sideBarPanel.add(new CustomButton("Nuevo o Insertar", "\uF0C6", v -> setFirstDistribution()));
-        sideBarPanel.add(new CustomButton("Creado Masivo", "\uf0ac", e -> {}));
-    }
+        cargarButton = new CustomButton("Cargar", "\uF093", e -> {
+            applyPaintLine((CustomButton) e.getSource());
+        });
+        sideBarPanel.add(cargarButton);
 
-    private void setupEmployeesButton() {
+        guardarButton = new CustomButton("Guardar", "\uF0C7", e -> {
+            applyPaintLine((CustomButton) e.getSource());
+        });
+        sideBarPanel.add(guardarButton);
+
+        nuevoButton = new CustomButton("Nuevo o Insertar", "\uF0C6", e -> {
+            setFirstDistribution();
+            applyPaintLine((CustomButton) e.getSource());
+        });
+        sideBarPanel.add(nuevoButton);
+
+        creadoMasivoButton = new CustomButton("Creado Masivo", "\uf0ac", e -> {
+            applyPaintLine((CustomButton) e.getSource());
+        });
+        sideBarPanel.add(creadoMasivoButton);
         // Crear el botón "Employees"
-        CustomButton employeesButton = new CustomButton("Employees", "\uf007", e -> setSecondDistribution());
+        employeesButton = new CustomButton("Employees", "\uf007", e -> {
+            setSecondDistribution();
+            applyPaintLine((CustomButton) e.getSource());
+        });
 
         // Agregar el botón al sideBarPanel
         sideBarPanel.add(employeesButton);
+    }
+
+    private void applyPaintLine(CustomButton button) {
+        cargarButton.paintLine(button);
+        creadoMasivoButton.paintLine(button);
+        nuevoButton.paintLine(button);
+        guardarButton.paintLine(button);
+        employeesButton.paintLine(button);
     }
 
     private void setupRightPanel() {
