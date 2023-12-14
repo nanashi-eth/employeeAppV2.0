@@ -165,4 +165,22 @@ public class DoublyLinkedList <T> implements Serializable {
         itemIndexMap.clear();
         size = 0;
     }
+
+    // Método para modificar un elemento en una posición específica
+    public void set(int index, T element) {
+        if (index < 0 || index >= getSize()) {
+            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
+        }
+
+        Node<T> currentNode = getNodeByIndex(index);
+        T oldElement = currentNode.item;
+
+        currentNode.item = element;
+
+
+        // Actualizar los HashMap
+        indexNodeMap.put(index, currentNode);
+        itemIndexMap.remove(oldElement);
+        itemIndexMap.put(element, index);
+    }
 }

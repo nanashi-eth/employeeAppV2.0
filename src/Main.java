@@ -2,6 +2,9 @@ import View.*;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme;
 import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class Main {
         public static void main(String[] args) {

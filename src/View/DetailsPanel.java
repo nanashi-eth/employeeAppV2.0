@@ -39,7 +39,7 @@ public class DetailsPanel extends CustomPanel {
         typeComboBox.setBorder(new LineBorder(Color.WHITE, 1));
         addComboBoxFocusListener(typeComboBox);
 
-        deleteButton = createIconButton("\uf1f8");
+        deleteButton = createIconButton("\uf51a");
         calendarButton = createIconButton("\uf073");
         dateChooser = new CustomDateChooser();
         dateChooser.setOpaque(false);
@@ -102,10 +102,66 @@ public class DetailsPanel extends CustomPanel {
     }
 
     private void addEventListeners() {
-        // Add your event listeners here
-        // For example, acceptButton.addActionListener(...);
-        // cancelButton.addActionListener(...);
+        // Agregar tus listeners aquí
+        addComboBoxListeners();
+        addButtonListeners();
     }
+
+    private void addComboBoxListeners() {
+        typeComboBox.addActionListener(e -> {
+            // Acciones al cambiar el valor en el JComboBox
+            String selectedType = (String) typeComboBox.getSelectedItem();
+            // Puedes realizar acciones adicionales según el tipo seleccionado
+            System.out.println("Selected Type: " + selectedType);
+        });
+    }
+
+    private void addButtonListeners() {
+        // Agregar listeners para los botones, por ejemplo, al hacer clic en Aceptar o Cancelar
+        JButton acceptButton = getAcceptButton();
+        JButton cancelButton = getCancelButton();
+
+        acceptButton.addActionListener(e -> {
+            // Acciones al hacer clic en Aceptar
+            System.out.println("Accept button clicked");
+            // Puedes realizar acciones adicionales al hacer clic en Aceptar
+        });
+
+        cancelButton.addActionListener(e -> {
+            // Acciones al hacer clic en Cancelar
+            System.out.println("Cancel button clicked");
+            // Puedes realizar acciones adicionales al hacer clic en Cancelar
+        });
+
+        // Agregar más listeners para otros botones si es necesario
+    }
+
+    private JButton getAcceptButton() {
+        for (Component component : getComponents()) {
+            if (component instanceof CustomPanel) {
+                for (Component subComponent : ((CustomPanel) component).getComponents()) {
+                    if (subComponent instanceof JButton && ((JButton) subComponent).getText().equals("Aceptar")) {
+                        return (JButton) subComponent;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private JButton getCancelButton() {
+        for (Component component : getComponents()) {
+            if (component instanceof CustomPanel) {
+                for (Component subComponent : ((CustomPanel) component).getComponents()) {
+                    if (subComponent instanceof JButton && ((JButton) subComponent).getText().equals("Cancelar")) {
+                        return (JButton) subComponent;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 
     private JButton createIconButton(String iconUnicode) {
         JButton button = new JButton();
@@ -173,5 +229,28 @@ public class DetailsPanel extends CustomPanel {
 
     private PlaceholderTextField createPlaceholderTextField(String placeholder) {
         return new PlaceholderTextField(this, placeholder, 15);
+    }
+
+    // Método para rellenar los PlaceholderTextField con los parámetros dados
+    public void fillFields(String name, String date, String salary, String maxSalary, String department, String special1, String special2) {
+        nameField.setText(name);
+        ((JTextField) dateChooser.getComponent(1)).setText(date);
+        salaryField.setText(salary);
+        maxSalaryField.setText(maxSalary);
+        departmentField.setText(department);
+        specialField1.setText(special1);
+        specialField2.setText(special2);
+    }
+
+    // Método para vaciar todos los PlaceholderTextField
+    public void clearFields() {
+        nameField.setText("");
+        // Puedes seguir este patrón para los demás campos
+        ((JTextField) dateChooser.getComponent(1)).setText("");
+        salaryField.setText("");
+        maxSalaryField.setText("");
+        departmentField.setText("");
+        specialField1.setText("");
+        specialField2.setText("");
     }
 }

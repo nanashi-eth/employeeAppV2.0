@@ -145,4 +145,20 @@ public class Controller implements CalculoFechas {
     public List<Empleado> getEmployeeArrayList() {
         return employeeArrayList;
     }
+
+    // Método para modificar un empleado en las listas
+    public void modifyEmployee(int index, Empleado newEmployee) {
+        if (index >= 0 && index < employeeDoublyLinkedList.getSize()) {
+            employeeDoublyLinkedList.set(index, newEmployee);
+            employeeArrayList.set(index, newEmployee);
+        }
+    }
+
+    // Método para borrar un empleado de las listas
+    public void deleteEmployee(int index) {
+        if (index >= 0 && index < employeeDoublyLinkedList.getSize()) {
+            employeeDoublyLinkedList.remove(index);
+            employeeArrayList.remove(index);
+        }
+    }
 }

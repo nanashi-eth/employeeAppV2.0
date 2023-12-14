@@ -27,6 +27,8 @@ public class View extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../assets/images/app_icon.png")));
+
 
         // Panel principal con BorderLayout
         mainPanel = new JPanel(new BorderLayout());
@@ -68,24 +70,27 @@ public class View extends JFrame {
         });
         sideBarPanel.add(guardarButton);
 
-        nuevoButton = new CustomButton("Nuevo o Insertar", "\uF0C6", e -> {
+        nuevoButton = new CustomButton("Nuevo", "\uF0C6", e -> {
             setFirstDistribution();
             applyPaintLine((CustomButton) e.getSource());
         });
         sideBarPanel.add(nuevoButton);
 
-        creadoMasivoButton = new CustomButton("Creado Masivo", "\uf0ac", e -> {
-            applyPaintLine((CustomButton) e.getSource());
-        });
-        sideBarPanel.add(creadoMasivoButton);
         // Crear el botón "Employees"
-        employeesButton = new CustomButton("Employees", "\uf007", e -> {
+        employeesButton = new CustomButton("Empleados", "\uf007", e -> {
             setSecondDistribution();
             applyPaintLine((CustomButton) e.getSource());
         });
-
         // Agregar el botón al sideBarPanel
         sideBarPanel.add(employeesButton);
+
+        creadoMasivoButton = new CustomButton("Creado Masivo", "\uf0ac", e -> {
+            applyPaintLine((CustomButton) e.getSource());
+        });
+        // Agregar espacio entre los botones y el botón "Creado Masivo" al final
+        sideBarPanel.add(Box.createVerticalGlue());
+        sideBarPanel.add(creadoMasivoButton);
+        
     }
 
     private void applyPaintLine(CustomButton button) {
