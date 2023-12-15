@@ -1,8 +1,15 @@
 package View;
 
+import Model.Analista;
+import Model.Empleado;
+import Model.Programador;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EmployeePanel extends CustomPanel {
     // Definir los campos y cualquier otro componente que necesites
@@ -24,27 +31,34 @@ public class EmployeePanel extends CustomPanel {
     // Agregamos botones de editar y borrar
     private final JButton editButton = createIconButton("\uf044");
     private final JButton deleteButton = createIconButton("\uf1f8");
+    private final JButton calcularBtn = createIconButton("\uf1ec");
+    private final JButton nextBtn = createIconButton("\uf105");
+    private final JButton prevBtn = createIconButton("\uf104");
+    private final JButton lastBtn = createIconButton("\uf101");
+    private final JButton firstBtn = createIconButton("\uf100");
 
     // Constructor de la clase
     public EmployeePanel() {
         // Establecer el diseño del panel
         setLayout(new BorderLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
 
         // CustomPanel para los botones (arriba)
         CustomPanel buttonPanel = new CustomPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // Alineación a la izquierda
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5)); // Alineación a la izquierda
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
+        buttonPanel.add(calcularBtn);
         buttonPanel.setBorder(new EmptyBorder(0, 0, INTERNAL_PADDING, 0));
+        buttonPanel.setPreferredSize(new Dimension(0, 35));
 
         add(buttonPanel, BorderLayout.NORTH);
 
         // CustomPanel para etiquetas y campos (abajo)
         CustomPanel infoPanel = new CustomPanel();
         infoPanel.setLayout(new GridBagLayout());
-
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         // Row 1 (Name)
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -94,13 +108,25 @@ public class EmployeePanel extends CustomPanel {
         infoPanel.add(specialField2Label, gbc);
         gbc.gridx = 1;
         infoPanel.add(specialField2, gbc);
+        infoPanel.setBorder(new EmptyBorder(10, INTERNAL_PADDING, 0, INTERNAL_PADDING));
 
         add(infoPanel, BorderLayout.CENTER);
+
+        // CustomPanel para los nuevos botones (abajo)
+        CustomPanel bottomButtonPanel = new CustomPanel();
+        bottomButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5)); // Alineación al centro
+        bottomButtonPanel.setBorder(new EmptyBorder(INTERNAL_PADDING, 0, 0, 0));
+
+        bottomButtonPanel.add(firstBtn);
+        bottomButtonPanel.add(prevBtn);
+        bottomButtonPanel.add(nextBtn);
+        bottomButtonPanel.add(lastBtn);
+        bottomButtonPanel.setBorder(new EmptyBorder(3, INTERNAL_PADDING, 0, INTERNAL_PADDING));
+        bottomButtonPanel.setPreferredSize(new Dimension(0, 35));
+        add(bottomButtonPanel, BorderLayout.SOUTH);
+
         setFontRecursively(this, font);
     }
-
-    // Puedes añadir métodos adicionales para realizar modificaciones específicas si es necesario
-    // Por ejemplo, getters y setters para acceder y modificar los campos
 
     // Ejemplo de método para obtener el contenido del campo 'nameField'
     public String getNameFieldValue() {
@@ -131,6 +157,7 @@ public class EmployeePanel extends CustomPanel {
         button.setContentAreaFilled(false);
         applyHoverEffect(button);
         button.setForeground(FG);
+        button.setPreferredSize(new Dimension(25, 30));
         return button;
     }
 
@@ -185,5 +212,121 @@ public class EmployeePanel extends CustomPanel {
             System.out.println("Delete button clicked");
             // Puedes realizar acciones adicionales al hacer clic en el botón de borrar
         });
+    }
+
+    public void setEmployeeData(Empleado employee) {
+        // Verifica si el objeto 'employee' no es nulo antes de acceder a sus propiedades
+        if (employee != null) {
+            setNameFieldValue(employee.getNombre());
+            setDateFieldValue(formatDate(employee.getFechaAlta())); // Asegúrate de tener un método formatDate implementado
+            setSalaryFieldValue(String.valueOf(employee.getSueldo()));
+            setMaxSalaryFieldValue(String.valueOf(employee.getSueldoMaximo()));
+            setDepartmentFieldValue("Informatica");
+
+            // Verifica el tipo de empleado y muestra u oculta los campos especiales según sea necesario
+            if (employee instanceof Analista) {
+                setSpecialField1LabelText("Plus Anual:");
+                setSpecialField1Value(String.valueOf(((Analista) employee).getPlusAnual()));
+                setSpecialField2LabelText("Tipo Analisis: "); // Oculta el segundo campo especial para Analista
+                setSpecialField2Value(((Analista) employee).getTipoAnalisis());
+            } else if (employee instanceof Programador) {
+                setSpecialField1LabelText("Sueldo Extra Mensual:");
+                setSpecialField1Value(String.valueOf(((Programador) employee).getSueldoExtraMensual()));
+                setSpecialField2LabelText("Lenguaje principal: "); // Oculta el segundo campo especial para Programador
+                setSpecialField2Value(((Programador) employee).getLenguajePrincipal());
+            } else {
+                // Oculta ambos campos especiales si el tipo de empleado no es Analista ni Programador
+                hideSpecialFields();
+            }
+        }
+    }
+
+    // Método adicional para formatear la fecha (puedes ajustarlo según tus necesidades)
+    private String formatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(date);
+    }
+
+    public void setDateFieldValue(String value) {
+        dateField.setText(value);
+    }
+
+    public void setSalaryFieldValue(String value) {
+        salaryField.setText(value);
+    }
+
+    public void setMaxSalaryFieldValue(String value) {
+        maxSalaryField.setText(value);
+    }
+
+    public void setDepartmentFieldValue(String value) {
+        departmentField.setText(value);
+    }
+
+    public void setSpecialField1Value(String value) {
+        specialField1.setText(value);
+    }
+
+    public void setSpecialField2Value(String value) {
+        specialField2.setText(value);
+    }
+
+    // Métodos públicos para configurar listeners desde una clase externa
+    public void addEditButtonListener(ActionListener listener) {
+        editButton.addActionListener(listener);
+    }
+
+    public void addDeleteButtonListener(ActionListener listener) {
+        deleteButton.addActionListener(listener);
+    }
+
+    public void addCalcularButtonListener(ActionListener listener) {
+        calcularBtn.addActionListener(listener);
+    }
+
+    // Métodos adicionales para configurar listeners de botones adicionales
+    public void addFirstButtonListener(ActionListener listener) {
+        firstBtn.addActionListener(listener);
+    }
+
+    public void addPrevButtonListener(ActionListener listener) {
+        prevBtn.addActionListener(listener);
+    }
+
+    public void addNextButtonListener(ActionListener listener) {
+        nextBtn.addActionListener(listener);
+    }
+
+    public void addLastButtonListener(ActionListener listener) {
+        lastBtn.addActionListener(listener);
+    }
+
+    // Métodos públicos para habilitar/deshabilitar botones
+    public void setEditButtonEnabled(boolean enabled) {
+        editButton.setEnabled(enabled);
+    }
+
+    public void setDeleteButtonEnabled(boolean enabled) {
+        deleteButton.setEnabled(enabled);
+    }
+
+    public void setCalcularButtonEnabled(boolean enabled) {
+        calcularBtn.setEnabled(enabled);
+    }
+
+    public void setFirstButtonEnabled(boolean enabled) {
+        firstBtn.setEnabled(enabled);
+    }
+
+    public void setPrevButtonEnabled(boolean enabled) {
+        prevBtn.setEnabled(enabled);
+    }
+
+    public void setNextButtonEnabled(boolean enabled) {
+        nextBtn.setEnabled(enabled);
+    }
+
+    public void setLastButtonEnabled(boolean enabled) {
+        lastBtn.setEnabled(enabled);
     }
 }

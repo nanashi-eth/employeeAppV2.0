@@ -5,6 +5,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class CustomDateChooser extends JDateChooser {
@@ -45,6 +46,10 @@ public class CustomDateChooser extends JDateChooser {
                 getDateEditor().getUiComponent().setForeground(Color.GRAY);
             }
         });
+
+        // Establecer el formato de fecha personalizado "dd/MM/yyyy"
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.setDateFormatString(dateFormat.toPattern());
     }
 
     private void customizeComponents() {
@@ -160,5 +165,9 @@ public class CustomDateChooser extends JDateChooser {
         int y = (getHeight() - g.getFontMetrics().getHeight()) / 2 + g.getFontMetrics().getAscent();
         g2.drawString(defaultText, x, y);
         g2.dispose();
+    }
+
+    public void setDefaultText(String defaultText) {
+        this.defaultText = defaultText;
     }
 }

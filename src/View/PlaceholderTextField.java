@@ -8,9 +8,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 public class PlaceholderTextField extends JTextField {
-    private final String placeholder;
+    private String placeholder;
     private final JLabel iconLabel;
-    private Font font = FontManager.getCustomIconFont();
+    private Font font;
     private Color containerBackground;
 
     public PlaceholderTextField(Container parent, String text, int columns) {
@@ -25,7 +25,7 @@ public class PlaceholderTextField extends JTextField {
     }
 
     private void initializeFont() {
-        font = font.deriveFont(Font.BOLD, 14);
+        font = FontManager.getCustomIconFont().deriveFont(Font.PLAIN, 13);
     }
 
     private void setupUI(Container parent) {
@@ -109,8 +109,9 @@ public class PlaceholderTextField extends JTextField {
     }
 
     public void valid() {
-        iconLabel.setText("\uF14A");
-        iconLabel.setForeground(new Color(102, 204, 255));
+        this.iconLabel.setFont(font);
+        iconLabel.setText("\uf14a");
+        iconLabel.setForeground(new Color(255, 255, 255));
     }
 
     public void invalid() {
@@ -122,5 +123,16 @@ public class PlaceholderTextField extends JTextField {
 
     public void reset() {
         iconLabel.setText("");
+    }
+    public void setPlaceholder(String newPlaceholder) {
+        placeholder = newPlaceholder;
+        setText(placeholder);
+        if (!hasFocus()) {
+            setForeground(Color.GRAY);
+        }
+    }
+
+    public String getPlaceholder() {
+        return placeholder;
     }
 }

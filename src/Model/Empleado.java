@@ -3,7 +3,7 @@ package Model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Empleado implements Serializable {
+public class Empleado {
     private transient String nombre;
     private transient int number;
     private double sueldo;
@@ -16,6 +16,9 @@ public class Empleado implements Serializable {
         this.sueldo = sueldo;
         this.sueldoMaximo = sueldoMaximo;
         this.fechaAlta = fechaAlta;
+    }
+
+    public Empleado() {
     }
 
     public String getNombre() {
@@ -49,6 +52,7 @@ public class Empleado implements Serializable {
     public void setFechaAlta(Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
+    
 
     public int getNumber() {
         return number;

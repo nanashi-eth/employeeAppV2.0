@@ -2,15 +2,16 @@ package Model;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
-public class DoublyLinkedList <T> implements Serializable {
+public class DoublyLinkedList <T>{
     private Node<T> head;
     private Node<T> tail;
     private final HashMap<Integer, Node<T>> indexNodeMap;
     private final HashMap<T, Integer> itemIndexMap;
     private int size; 
 
-    static class Node<T> {
+    static class Node<T>{
         Node<T> next;
         Node<T> prev;
         int index;
@@ -34,6 +35,16 @@ public class DoublyLinkedList <T> implements Serializable {
         while (otherCurrent != null) {
             this.add(otherCurrent.index, otherCurrent.item);
             otherCurrent = otherCurrent.next;
+        }
+    }
+
+    // Constructor que construye la lista a partir de una lista de Java
+    public DoublyLinkedList(List<T> javaList) {
+        this();
+        int index = 0;
+        for (T item : javaList) {
+            this.add(index, item);
+            index++;
         }
     }
 
@@ -80,6 +91,9 @@ public class DoublyLinkedList <T> implements Serializable {
     // Método para obtener un nodo por su índice utilizando el mapa
     private Node<T> getNodeByIndex(int index) {
         return indexNodeMap.get(index);
+    }
+    public T get(int index) {
+        return indexNodeMap.get(index).item;
     }
     public int getIndexByItem(T item) {
         return itemIndexMap.getOrDefault(item, -1);
