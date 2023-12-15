@@ -14,21 +14,25 @@ public interface CalculoFechas {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fechaAlta);
         int mesAlta = calendar.get(MES);
+        int diaAlta = calendar.get(DIA_DEL_MES);
 
         Calendar fechaActual = Calendar.getInstance();
         int mesActual = fechaActual.get(MES);
+        int diaActual = fechaActual.get(DIA_DEL_MES);
 
-        return mesAlta == mesActual;
+        return mesAlta == mesActual && diaAlta == diaActual;
     }
 
     default boolean cumpleAnio(Date fechaAlta) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fechaAlta);
         int anioAlta = calendar.get(ANIO);
+        int mesAlta = calendar.get(MES);
 
         Calendar fechaActual = Calendar.getInstance();
         int anioActual = fechaActual.get(ANIO);
+        int mesActual = fechaActual.get(MES);
 
-        return anioAlta == anioActual;
+        return anioAlta == anioActual && mesAlta == mesActual;
     }
 }

@@ -163,9 +163,6 @@ public class DetailsPanel extends CustomPanel {
         });
 
         cancelButton.addActionListener(e -> {
-            // Acciones al hacer clic en Cancelar
-            System.out.println("Cancel button clicked");
-            // Puedes realizar acciones adicionales al hacer clic en Cancelar
         });
         
     }

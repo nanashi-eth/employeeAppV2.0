@@ -99,7 +99,7 @@ public class Controller implements CalculoFechas {
         System.out.println(console);
     }
     public boolean fulfillsMonthAnalyst(Analista analyst, int numberOfMonths) {
-        return cumpleMes(analyst.getFechaAlta());
+        return cumpleAnio(analyst.getFechaAlta());
     }
     public boolean fulfillsYearProgrammer(Programador programmer, int numberOfYears) {
         return cumpleMes(programmer.getFechaAlta());
@@ -174,10 +174,9 @@ public class Controller implements CalculoFechas {
     public void deleteEmployee(int index) {
         if (index >= 0 && index < employeeDoublyLinkedList.getSize()) {
             if (currentEmployee != null && currentEmployee.equals(employeeDoublyLinkedList.get(index))) {
-                currentEmployee = null; // Limpiar el empleado actual si se está eliminando
+                currentEmployee = null;// Limpiar el empleado actual si se está eliminando
             }
             employeeDoublyLinkedList.remove(index);
-            employeeArrayList.remove(index);
         }
     }
 

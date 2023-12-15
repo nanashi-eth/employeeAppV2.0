@@ -27,6 +27,11 @@ public class EmployeePanel extends CustomPanel {
 
     private final JLabel specialField1Label = new JLabel("Special Field 1:");
     private final JLabel specialField2Label = new JLabel("Special Field 2:");
+    private final JLabel nameLabel = new JLabel("Name:");
+    private final JLabel dateLabel = new JLabel("Date:");
+    private final JLabel salaryLabel = new JLabel("Salary:");
+    private final JLabel maxSalaryLabel = new JLabel("Max Salary:");
+        private final JLabel departmentLabel = new JLabel("Type:");
 
     // Agregamos botones de editar y borrar
     private final JButton editButton = createIconButton("\uf044");
@@ -63,35 +68,35 @@ public class EmployeePanel extends CustomPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST; // Alineación a la izquierda
-        infoPanel.add(new JLabel("Name:"), gbc);
+        infoPanel.add(nameLabel, gbc);
         gbc.gridx = 1;
         infoPanel.add(nameField, gbc);
 
         // Row 2 (Date)
         gbc.gridx = 0;
         gbc.gridy = 1;
-        infoPanel.add(new JLabel("Date:"), gbc);
+        infoPanel.add(dateLabel, gbc);
         gbc.gridx = 1;
         infoPanel.add(dateField, gbc);
 
         // Row 3 (Salary)
         gbc.gridx = 0;
         gbc.gridy = 2;
-        infoPanel.add(new JLabel("Salary:"), gbc);
+        infoPanel.add(salaryLabel, gbc);
         gbc.gridx = 1;
         infoPanel.add(salaryField, gbc);
 
         // Row 4 (Max Salary)
         gbc.gridx = 0;
         gbc.gridy = 3;
-        infoPanel.add(new JLabel("Max Salary:"), gbc);
+        infoPanel.add(maxSalaryLabel, gbc);
         gbc.gridx = 1;
         infoPanel.add(maxSalaryField, gbc);
 
         // Row 5 (Department)
         gbc.gridx = 0;
         gbc.gridy = 4;
-        infoPanel.add(new JLabel("Department:"), gbc);
+        infoPanel.add(departmentLabel, gbc);
         gbc.gridx = 1;
         infoPanel.add(departmentField, gbc);
 
@@ -200,17 +205,11 @@ public class EmployeePanel extends CustomPanel {
 
     private void addEditButtonListener() {
         editButton.addActionListener(e -> {
-            // Acciones al hacer clic en el botón de editar
-            System.out.println("Edit button clicked");
-            // Puedes realizar acciones adicionales al hacer clic en el botón de editar
         });
     }
 
     private void addDeleteButtonListener() {
         deleteButton.addActionListener(e -> {
-            // Acciones al hacer clic en el botón de borrar
-            System.out.println("Delete button clicked");
-            // Puedes realizar acciones adicionales al hacer clic en el botón de borrar
         });
     }
 
@@ -221,15 +220,16 @@ public class EmployeePanel extends CustomPanel {
             setDateFieldValue(formatDate(employee.getFechaAlta())); // Asegúrate de tener un método formatDate implementado
             setSalaryFieldValue(String.valueOf(employee.getSueldo()));
             setMaxSalaryFieldValue(String.valueOf(employee.getSueldoMaximo()));
-            setDepartmentFieldValue("Informatica");
 
             // Verifica el tipo de empleado y muestra u oculta los campos especiales según sea necesario
             if (employee instanceof Analista) {
+                setDepartmentFieldValue("Analista");
                 setSpecialField1LabelText("Plus Anual:");
                 setSpecialField1Value(String.valueOf(((Analista) employee).getPlusAnual()));
                 setSpecialField2LabelText("Tipo Analisis: "); // Oculta el segundo campo especial para Analista
                 setSpecialField2Value(((Analista) employee).getTipoAnalisis());
             } else if (employee instanceof Programador) {
+                setDepartmentFieldValue("Programador");
                 setSpecialField1LabelText("Sueldo Extra Mensual:");
                 setSpecialField1Value(String.valueOf(((Programador) employee).getSueldoExtraMensual()));
                 setSpecialField2LabelText("Lenguaje principal: "); // Oculta el segundo campo especial para Programador
@@ -328,5 +328,36 @@ public class EmployeePanel extends CustomPanel {
 
     public void setLastButtonEnabled(boolean enabled) {
         lastBtn.setEnabled(enabled);
+    }
+    public void hideAllLabels() {
+        hideLabelsRecursively(this);
+    }
+
+    private void hideLabelsRecursively(Container container) {
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            if (component instanceof Container) {
+                hideLabelsRecursively((Container) component);
+            }
+            if (component instanceof JLabel) {
+                component.setVisible(false);
+            }
+        }
+    }
+
+    public void showAllLabels() {
+        showLabelsRecursively(this);
+    }
+
+    private void showLabelsRecursively(Container container) {
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            if (component instanceof Container) {
+                showLabelsRecursively((Container) component);
+            }
+            if (component instanceof JLabel) {
+                component.setVisible(true);
+            }
+        }
     }
 }

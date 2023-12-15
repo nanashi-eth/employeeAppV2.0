@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Controller;
+import Exceptions.SueldoInvalidoException;
 import Model.Analista;
 import Model.DoublyLinkedList;
 import Model.Empleado;
@@ -73,29 +74,43 @@ public class View extends JFrame {
             editPanel.clearFields();
             editPanel.resetFields();
             employeePane.setEmployeeData(controller.getCurrentEmployee());
+            updateJList();
             updateNavigationButtons();
             updateModButtons();
         });
         
         employeePane.addCalcularButtonListener(e -> {
-            if (controller.getCurrentEmployee() instanceof Analista) {
-                ((Analista) controller.getCurrentEmployee()).actualizarSalarioConPlus();
+            try {
+                if (controller.getCurrentEmployee() instanceof Analista) {
+                    ((Analista) controller.getCurrentEmployee()).actualizarSalarioConPlus();
+                }
+                if (controller.getCurrentEmployee() instanceof Programador) {
+                    ((Programador) controller.getCurrentEmployee()).actualizarSalarioConPlus();
+                }
             }
-            if (controller.getCurrentEmployee() instanceof Programador) {
-                ((Programador) controller.getCurrentEmployee()).actualizarSalarioConPlus();
+            catch (SueldoInvalidoException ex) {
+                
             }
+            
+            updateJList();
             updateEmployee();
         });
         employeePane.addDeleteButtonListener(e -> {
             controller.deleteEmployee(controller.getCurrentEmployee().getNumber());
             if (controller.getEmployeeDoublyLinkedList().getIndexByItem(controller.getCurrentEmployee()) < controller.getEmployeeDoublyLinkedList().getSize() - 1) {
                 controller.setCurrentEmployee(controller.getNextEmployee());
+                updateEmployee();
             }
             else {
                 controller.setCurrentEmployee(controller.getPreviousEmployee());
+                updateEmployee();
             }
-            updateEmployee();
+            if (controller.getEmployeeDoublyLinkedList().getSize() == 0) {
+                employeePane.hideAllLabels();
+            }
+            updateJList();
             updateModButtons();
+            updateNavigationButtons();
         });
         employeePane.addLastButtonListener(e -> {
             controller.setCurrentEmployee(controller.getLastEmployee());
@@ -121,6 +136,7 @@ public class View extends JFrame {
         employeePane.setPrevButtonEnabled(false);
         employeePane.setFirstButtonEnabled(false);
         updateModButtons();
+        employeePane.hideAllLabels();
         setVisible(true);
     }
 
@@ -137,8 +153,6 @@ public class View extends JFrame {
     public void updateNavigationButtons() {
         int currentIndex = controller.getEmployeeDoublyLinkedList().getIndexByItem(controller.getCurrentEmployee());
         int lastIndex = controller.getEmployeeDoublyLinkedList().getSize() - 1;
-        System.out.println(currentIndex);
-        System.out.println(lastIndex);
         // Actualizar el estado de los botones de avanzar y retroceder
         employeePane.setNextButtonEnabled(currentIndex < lastIndex);
         employeePane.setLastButtonEnabled(currentIndex < lastIndex);
@@ -155,6 +169,7 @@ public class View extends JFrame {
         employeePane.setDeleteButtonEnabled(size > 0);
     }
     public void updateEmployee(){
+        employeePane.showAllLabels();
         Empleado e = controller.getCurrentEmployee();
         employeePane.setEmployeeData(e);
         updateNavigationButtons();
@@ -179,6 +194,7 @@ public class View extends JFrame {
         nuevoButton = new CustomButton("Nuevo", "\uF0C6", e -> {
             STATE = 0;
             editPanel.clearFields();
+            editPanel.resetFields();
             setFirstDistribution();
             applyPaintLine((CustomButton) e.getSource());
         });
@@ -186,6 +202,9 @@ public class View extends JFrame {
 
         // Crear el botón "Employees"
         employeesButton = new CustomButton("Empleados", "\uf007", e -> {
+            if (controller.getEmployeeDoublyLinkedList().getSize() > 0) {
+                employeePane.showAllLabels();
+            }
             setSecondDistribution();
             employeePane.setEmployeeData(controller.getCurrentEmployee());
             applyPaintLine((CustomButton) e.getSource());
@@ -196,7 +215,6 @@ public class View extends JFrame {
         creadoMasivoButton = new CustomButton("Creado Masivo", "\uf0ac", e -> {
             applyPaintLine((CustomButton) e.getSource());
             controller.sortEmployees();
-            System.out.println(controller.getEmployeeArrayList().size());
             updateJList();
         });
         // Agregar espacio entre los botones y el botón "Creado Masivo" al final
@@ -272,6 +290,7 @@ public class View extends JFrame {
 
     public void setSecondDistribution() {
         setDistribution(employeePane);
+        updateNavigationButtons();
     }
 
     private void setDistribution(Component component) {
@@ -332,5 +351,6 @@ public class View extends JFrame {
             }
         }
     }
+    
     
 }

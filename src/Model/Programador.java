@@ -1,5 +1,7 @@
 package Model;
 
+import Exceptions.SueldoInvalidoException;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -31,8 +33,13 @@ public class Programador extends Empleado implements CalculoFechas, Serializable
     public void setLenguajePrincipal(String lenguajePrincipal) {
         this.lenguajePrincipal = lenguajePrincipal;
     }
-    public void actualizarSalarioConPlus() {
+    public void actualizarSalarioConPlus() throws SueldoInvalidoException{
         double nuevoSalario = getSueldo() + sueldoExtraMensual;
-        setSueldo(nuevoSalario);
+        if (nuevoSalario > super.getSueldoMaximo()) {
+            throw new SueldoInvalidoException("El salario es mayor que el salario maximo");
+        }
+        else {
+            setSueldo(nuevoSalario);
+        }
     }
 }

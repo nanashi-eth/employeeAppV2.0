@@ -1,5 +1,7 @@
 package Model;
 
+import Exceptions.SueldoInvalidoException;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -31,8 +33,14 @@ public class Analista extends Empleado implements CalculoFechas, Serializable {
     }
 
     // Método para modificar el salario a partir del plus anual
-    public void actualizarSalarioConPlus() {
-            double nuevoSalario = getSueldo() + plusAnual;
-        setSueldo(nuevoSalario);
+    public void actualizarSalarioConPlus() throws SueldoInvalidoException{
+        double nuevoSalario = getSueldo() + plusAnual;
+        if (nuevoSalario > super.getSueldoMaximo()) {
+            throw new SueldoInvalidoException("El salario es mayor que el salario maximo");
+        }
+        else {
+            setSueldo(nuevoSalario);
+        }
+        
     }
 }
