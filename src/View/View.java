@@ -89,7 +89,10 @@ public class View extends JFrame {
                 }
             }
             catch (SueldoInvalidoException ex) {
-                
+                employeePane.setCalcularButtonEnabled(false);
+                // Show in a JDialog
+                JDialog dialog = new JDialog();
+                JOptionPane.showMessageDialog(dialog, ex.getMessage());
             }
             
             updateJList();
@@ -165,7 +168,6 @@ public class View extends JFrame {
         int size = controller.getEmployeeDoublyLinkedList().getSize();
         // Actualizar el estado de los botones de avanzar y retroceder
         employeePane.setEditButtonEnabled(size > 0);
-        employeePane.setCalcularButtonEnabled(size > 0);
         employeePane.setDeleteButtonEnabled(size > 0);
     }
     public void updateEmployee(){
